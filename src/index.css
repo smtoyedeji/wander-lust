@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.navbar {
+  height: 70px;
+}
+
+.navbar h2 {
+  margin-left: 40px;
+  font-size: 24px;
+}
+
+.navbar a {
+  text-decoration: none;
+}
+
+.card-container {
+  padding: 44px;
+  display: flex;
+}
+
+.form-group {
+  padding: 0 44px;
+
+}
+
+
+
+
+
+
+
