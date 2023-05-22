@@ -1,36 +1,63 @@
+import React, { useState } from 'react'
+import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 function Write() {
+    const [formData, setFormData] = useState({
+        place: '',
+        topic: '',
+        experience: ''
+
+    })
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      };
+
+      const handleSubmit = (event) => {
+        event.preventDefault()
+        // console.log(formData)
+        sendDataToServer(formData)
+      };
+
+      const sendDataToServer = async (data) => {
+        try {
+            const response = await axios.post('https://wanderlust-production.up.railway.app/api/v1/wanderlust', data)
+            console.log(response.data)
+        } catch (err) {
+            console.log(err)
+        }
+      }
+
     return (
         <div className="form-group">
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Place</Form.Label>
-                    <Form.Control type="email" placeholder="Name" />
-                    <Form.Text className="text-muted">
-                        Name of place visited
-                    </Form.Text>
+                    <Form.Control type="text" name="place" value={formData.place} onChange={handleChange} placeholder="Name of place visited" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Topic</Form.Label>
-                    <Form.Control type="email" placeholder="A summary of what the experience is like" />
-                    <Form.Text className="text-muted">
-                        A short description of what the experience
-                    </Form.Text>
+                    <Form.Control type="text" name="topic" value={formData.topic} onChange={handleChange} placeholder="A short description of what the experience" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Your Experience</Form.Label>
+                    <Form.Label>Write about the experience</Form.Label>
                     <Form.Control
                         as="textarea"
+                        type="text"
+                        name="experience"
+                        value={formData.experience}
+                        onChange={handleChange}
                         placeholder="Leave a comment here"
                         style={{ height: '150px' }}
                     />
-                    <Form.Text className="text-muted">
-                        Write about the experience
-                    </Form.Text>
                 </Form.Group>
 
                 <Form.Group controlId="formFile" className="mb-3">

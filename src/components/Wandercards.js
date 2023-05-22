@@ -1,20 +1,30 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-function Wandercards() {
+function Wandercards(props) {
+  const { topic, place, experience } = props.data
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src="holder.js/100px180" />
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
+        <Card.Title>{place}: {topic}</Card.Title>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          {trimString(experience)}
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Button variant="primary">More about {place}</Button>
       </Card.Body>
     </Card>
   );
 }
+
+const trimString = (str) => {
+  if (str.length <= 100) {
+    return str;
+  } else {
+    return str.substring(0, 100) + "...";
+  }
+};
+
+
 
 export default Wandercards;
