@@ -76,6 +76,10 @@ function Write() {
   // submit formdata function
   const handleSubmit = (event) => {
     event.preventDefault();
+    // if (!formData.place || !formData.topic || !formData.experience || !formData.image) {
+    //   alert('Please fill in all the required fields.');
+    //   return;
+    // }
     console.log(formData);
     uploadData(formData);
   };
@@ -90,7 +94,9 @@ function Write() {
             name="place"
             value={formData.place}
             onChange={handleChange}
-            placeholder="Name of place visited"
+            placeholder="Place visited (not more than 20 characters)"
+            maxLength={20}
+            required
           />
         </Form.Group>
 
@@ -101,7 +107,9 @@ function Write() {
             name="topic"
             value={formData.topic}
             onChange={handleChange}
-            placeholder="A short description of the experience"
+            placeholder="A short description of the experience (not more than 50 characters)"
+            maxLength={50}
+            required
           />
         </Form.Group>
 
@@ -113,8 +121,10 @@ function Write() {
             name="experience"
             value={formData.experience}
             onChange={handleChange}
-            placeholder="Leave a comment here"
-            style={{ height: "150px" }}
+            placeholder="Not more than 3000 characters"
+            style={{ height: "200px" }}
+            maxLength={3000}
+            required
           />
         </Form.Group>
 

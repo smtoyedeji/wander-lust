@@ -1,4 +1,5 @@
 import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
 import { BsPencilSquare, BsTwitter, BsInstagram } from 'react-icons/bs'
 
 function Navbar() {
@@ -11,7 +12,7 @@ function Navbar() {
             className="justify-content-end"
         >
             <Nav.Item>
-              <Nav.Link href="/home">
+              <Nav.Link as={Link} to="/write">
                 <BsPencilSquare /> Write
               </Nav.Link>
             </Nav.Item>
