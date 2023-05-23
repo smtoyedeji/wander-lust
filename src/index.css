@@ -25,9 +25,8 @@ code {
   text-decoration: none;
 }
 
-.card-container {
-  padding: 44px;
-  display: flex;
+.card-style {
+  margin: 0 10px;
 }
 
 .form-group {

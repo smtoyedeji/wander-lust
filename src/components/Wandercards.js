@@ -17,8 +17,8 @@ function Wandercards(props) {
   const imageData = `data:image/jpeg;base64,${Buffer.from(image.data).toString('base64')}`;
 
   return (
-    <>
-      <Card style={{ width: '18rem' }}>
+    <div>
+      <Card style={{ width: '100%', margin: '20px' }}>
         <Card.Img variant="top" src={imageData} />
         <Card.Body>
           <Card.Title>{place}: {topic}</Card.Title>
@@ -37,7 +37,7 @@ function Wandercards(props) {
           id={_id}
         />
       )}
-    </>
+    </div>
   );
 }
 

@@ -29,7 +29,7 @@ function App() {
     <Router>
       <div className="App">
         <Navbar />
-        <div className="card-container">
+        <div className="container">
           <Routes>
             <Route path="/" element={cardElements} />
             <Route path="/write" element={<Write />} />

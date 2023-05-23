@@ -76,12 +76,19 @@ function Write() {
   // submit formdata function
   const handleSubmit = (event) => {
     event.preventDefault();
-    // if (!formData.place || !formData.topic || !formData.experience || !formData.image) {
-    //   alert('Please fill in all the required fields.');
-    //   return;
-    // }
+    if (!formData.place || !formData.topic || !formData.experience || !formData.image) {
+      alert('Please fill in all the required fields.');
+      return;
+    }
     console.log(formData);
     uploadData(formData);
+
+    setFormData({
+      place: "",
+      topic: "",
+      experience: "",
+      image: null,
+    })    
   };
 
   return (

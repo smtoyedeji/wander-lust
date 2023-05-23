@@ -11,6 +11,7 @@ function Place(props) {
       const response = await axios.delete(`https://wanderlust-production.up.railway.app/api/v1/wanderlust/${id}`)
       if (response.status === 200) {
         console.log(response.data)
+        window.location.reload()
       }
     } catch (error) {
       console.error(error)
