@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { useParams } from "react-router-dom";
+import { WanderContext } from "../WanderContext";
+import { useNavigate } from "react-router-dom";
 
-function Write() {
+function Edit() {
+  const { data } = useContext(WanderContext);
+  const { id } = useParams();
+  const placeToEdit = data.filter((card) => card._id === id);
+  console.log(placeToEdit);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    place: "",
-    topic: "",
-    experience: "",
+    place: placeToEdit[0].place || "",
+    topic: placeToEdit[0].topic || "",
+    experience: placeToEdit[0].experience || "",
     image: null,
   });
+
+  console.log(formData);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -52,8 +63,8 @@ function Write() {
     formDataUpload.append("image", imageFile);
 
     try {
-      const response = await axios.post(
-        "https://wanderlust-production.up.railway.app/api/v1/wanderlust",
+      const response = await axios.patch(
+        `https://wanderlust-production.up.railway.app/api/v1/wanderlust/${id}`,
         formDataUpload,
         {
           headers: {
@@ -81,12 +92,8 @@ function Write() {
 
     uploadData(formData);
 
-    setFormData({
-      place: "",
-      topic: "",
-      experience: "",
-      image: null,
-    });
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -99,9 +106,8 @@ function Write() {
             name="place"
             value={formData.place}
             onChange={handleChange}
-            placeholder="Place visited (not more than 20 characters)"
+            placeholder={placeToEdit[0].place}
             maxLength={20}
-            required
           />
         </Form.Group>
 
@@ -112,30 +118,33 @@ function Write() {
             name="topic"
             value={formData.topic}
             onChange={handleChange}
-            placeholder="A short description of the experience (not more than 50 characters)"
+            placeholder={placeToEdit[0].topic}
             maxLength={50}
-            required
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicExperience">
-          <Form.Label>Write about the experience</Form.Label>
+          <Form.Label>Edit about the experience</Form.Label>
           <Form.Control
             as="textarea"
             type="text"
             name="experience"
             value={formData.experience}
             onChange={handleChange}
-            placeholder="Not more than 3000 characters"
+            placeholder={placeToEdit[0].experience}
             style={{ height: "200px" }}
             maxLength={3000}
-            required
           />
         </Form.Group>
 
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>Upload Picture</Form.Label>
-          <Form.Control type="file" name="image" onChange={handleImageChange} />
+          <Form.Control
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            required
+          />
         </Form.Group>
 
         <Button variant="primary" type="submit">
@@ -146,4 +155,4 @@ function Write() {
   );
 }
 
-export default Write;
+export default Edit;

@@ -7,9 +7,7 @@ import { WanderContext } from "../WanderContext";
 function Wandercards() {
   const { data } = useContext(WanderContext);
 
-
-  
-  let cardElements = []
+  let cardElements = [];
 
   if (data && data.length) {
     cardElements = data.map((card) => (
@@ -29,17 +27,8 @@ function Wandercards() {
           </Link>
         </Card.Body>
       </Card>
-    ))
+    ));
   }
-
-  // const handleClick = () => {
-  //   // setData(_id);
-  //   console.log(data)
-  // };
-
-  
- 
-
 
   if (data === null || typeof data === "undefined") {
     // Render a loading state or placeholder content
@@ -49,9 +38,6 @@ function Wandercards() {
   return <div className="card-container">{cardElements}</div>;
 }
 
-
-
-
 const trimString = (str) => {
   if (str.length <= 100) {
     return str;
@@ -59,10 +45,5 @@ const trimString = (str) => {
     return str.substring(0, 100) + "...";
   }
 };
-
-
-
-
-
 
 export default Wandercards;
