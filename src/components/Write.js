@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import React, { useState } from "react"
+import axios from "axios"
+import Button from "react-bootstrap/Button"
+import Form from "react-bootstrap/Form"
 
 function Write() {
 
-  // useState to handle form data
   const [formData, setFormData] = useState({
     place: "",
     topic: "",
@@ -13,8 +12,8 @@ function Write() {
     image: null,
   });
 
+  console.log(formData)
 
-  // handleChange function to track changes in form inputs
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -23,8 +22,6 @@ function Write() {
     }));
   };
 
-  
-  // handleImageChange function to track image upload
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -45,22 +42,22 @@ function Write() {
     reader.readAsArrayBuffer(file);
   };
 
-  // upload formData function
   const uploadData = async (data) => {
-    const formData = new FormData();
-    formData.append("place", data.place);
-    formData.append("topic", data.topic);
-    formData.append("experience", data.experience);
-    formData.append("image", data.image);
-    formData.append("name", data.name);
-    formData.append("size", data.size);
-    formData.append("mimetype", data.type);
-    formData.append("createdAt", data.lastModified);
+    const { place, topic, experience, image } = formData;
+
+    const formDataUpload = new FormData();
+
+    formDataUpload.append("place", place);
+    formDataUpload.append("topic", topic);
+    formDataUpload.append("experience", experience);
+
+    const imageFile = new File([image], "image.jpg", { type: "image/jpeg" });
+    formDataUpload.append("image", imageFile);
 
     try {
       const response = await axios.post(
         "https://wanderlust-production.up.railway.app/api/v1/wanderlust",
-        formData,
+        formDataUpload,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -73,14 +70,13 @@ function Write() {
     }
   };
 
-  // submit formdata function
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!formData.place || !formData.topic || !formData.experience || !formData.image) {
       alert('Please fill in all the required fields.');
       return;
     }
-    console.log(formData);
+
     uploadData(formData);
 
     setFormData({
@@ -88,7 +84,7 @@ function Write() {
       topic: "",
       experience: "",
       image: null,
-    })    
+    });
   };
 
   return (

@@ -1,45 +1,56 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import { Buffer } from 'buffer';
-import Place from './Place';
+import React, { useContext } from "react";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import { Link } from "react-router-dom";
+import { WanderContext } from "../WanderContext";
 
-function Wandercards(props) {
-  const { topic, place, experience, image, _id } = props.data;
+function Wandercards() {
+  const { data } = useContext(WanderContext);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+  
+  let cardElements = []
 
-  // Convert Buffer data to Base64-encoded data URL
-  const imageData = `data:image/jpeg;base64,${Buffer.from(image.data).toString('base64')}`;
-
-  return (
-    <div>
-      <Card style={{ width: '100%', margin: '20px' }}>
-        <Card.Img variant="top" src={imageData} />
+  if (data && data.length) {
+    cardElements = data.map((card) => (
+      <Card key={card._id} className="w-100 m-2">
+        <Card.Img
+          src={card.image}
+          variant="top"
+          style={{ height: "200px", objectFit: "cover" }}
+        />
         <Card.Body>
-          <Card.Title>{place}: {topic}</Card.Title>
-          <Card.Text>
-            {trimString(experience)}
-          </Card.Text>
-          <Button variant="primary" onClick={toggleModal}>More about {place}</Button>
+          <Card.Title>
+            {card.place}: {card.topic}
+          </Card.Title>
+          <Card.Text>{trimString(card.experience)}</Card.Text>
+          <Link to={`/place/${card._id}`}>
+            <Button variant="primary">More about {card.place}</Button>
+          </Link>
         </Card.Body>
       </Card>
-      {isModalOpen && (
-        <Place
-          onHide={toggleModal}
-          place={place}
-          topic={topic}
-          experience={experience}
-          id={_id}
-        />
-      )}
-    </div>
-  );
+    ))
+  }
+
+  // const handleClick = () => {
+  //   // setData(_id);
+  //   console.log(data)
+  // };
+
+  
+ 
+
+
+  if (data === null || typeof data === "undefined") {
+    // Render a loading state or placeholder content
+    return <div>Loading...</div>;
+  }
+
+  return <div className="card-container">{cardElements}</div>;
 }
+
+
+
 
 const trimString = (str) => {
   if (str.length <= 100) {
@@ -48,5 +59,10 @@ const trimString = (str) => {
     return str.substring(0, 100) + "...";
   }
 };
+
+
+
+
+
 
 export default Wandercards;
